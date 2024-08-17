@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+            flex-shrink: 0;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .logout-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>URL Shortener</h2>
+    <div class="container">
+        <form method="POST" action="/url">
+            <div class="form-group">
+                <label for="url">Enter Your Original URL</label>
+                <input type="text" id="url" name="url" placeholder="https://example.com" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Generate</button>
+            </div>
+        </form>
+
+        <!-- Logout Button -->
+        <div class="logout-button">
+            <form method="GET" action="user/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <% if (locals.id) { %>
+        <p>URL Generated: <a href="http://localhost:5001/url/<%= id %>" target="_blank">http://localhost:5001/url/<%= id %></a></p>
+    <% } %>
+
+    <div>
+        <% if (locals.urls) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>Short ID</th>
+                        <th>Redirect URL</th>
+                        <th>Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url, index) => { %>
+                        <tr>
+                            <td><%= index +1 %></td>
+                            <td><%= url.shortId %></td>
+                            <td><%= url.redirectURL %></td>
+                            <td><%= url.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 <a href="https://github.com/pratyaushghosh" target="_blank">Pratyaush Ghosh</a>. All rights reserved.</p>
+    </footer>
+</body>
+</html>
